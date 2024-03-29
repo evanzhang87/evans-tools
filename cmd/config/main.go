@@ -1,8 +1,8 @@
 package main
 
 import (
-	"evans-tools/pkg/config"
 	"fmt"
+	"github.com/evanzhang87/evans-tools/pkg/config"
 )
 
 type Config struct {

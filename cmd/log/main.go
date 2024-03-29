@@ -1,6 +1,6 @@
 package main
 
-import "evans-tools/pkg/logger"
+import "github.com/evanzhang87/evans-tools/pkg/logger"
 
 func main() {
 	config := &logger.LogConfig{}

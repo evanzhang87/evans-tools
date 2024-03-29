@@ -1,4 +1,4 @@
-module evans-tools
+module github.com/evanzhang87/evans-tools
 
 go 1.18
 

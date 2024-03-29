@@ -84,7 +84,7 @@ func main() {
 				fmt.Println("read msg err:", err.Error())
 				continue
 			}
-			fmt.Println("get msg:", msg.Topic, string(msg.Value))
+			fmt.Println("get msg:", msg.Time, msg.Topic, string(msg.Value))
 			count++
 			if maxMessages > 0 && count >= maxMessages {
 				fmt.Println("get message counts: ", count)
@@ -111,5 +111,4 @@ func main() {
 			fmt.Println("get msg:", msg.Topic, string(msg.Value))
 		}
 	}
-
 }

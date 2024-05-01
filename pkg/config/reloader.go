@@ -38,6 +38,7 @@ func (r *Reloader) WatchPath(path string) error {
 	if err != nil {
 		return err
 	}
+	_ = LoadConfig(r.configInstance, path)
 	go func() {
 		for event := range r.watcher.Events {
 			for _, op := range r.opList {

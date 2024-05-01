@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/evanzhang87/evans-tools/pkg/config"
+	"os"
+	"os/signal"
+	"time"
 )
 
 type Config struct {
@@ -18,9 +21,28 @@ func (c *Config) print() {
 
 func main() {
 	var conf Config
-	err := config.LoadConfig(&conf, "config.yaml")
+	reloader := config.NewReloader(&conf)
+	err := reloader.WatchPath("config.yaml")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	conf.print()
+	signChan := make(chan os.Signal, 1)
+	signal.Notify(signChan, os.Kill, os.Interrupt)
+	configChan := reloader.SubscribeConfig()
+	reloadTicker := time.NewTicker(time.Second * 10)
+	for {
+		select {
+		case <-signChan:
+			return
+		case configOutlet := <-configChan:
+			if configOutlet != nil {
+				configOutlet.(*Config).print()
+			}
+		case <-reloadTicker.C:
+			confFetch := reloader.FetchConfig()
+			if confFetch != nil {
+				confFetch.(*Config).print()
+			}
+		}
+	}
 }
